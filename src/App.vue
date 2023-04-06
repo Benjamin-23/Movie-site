@@ -21,17 +21,17 @@ async function getList() {
     list.value = response.data.Search
 
   for (let i = 0; i < list.value.length; i++) {
-    // const element = list.value[i];
-    // console.log(element);
+    const element = list.value[i];
     
 // store in dexie 
 // movies list 
 
     const id = await db.movies.add({
-    Title:list.value[i].Title,
-    Type: list.value[i].Type,
-    Poster: list.value[i].Poster,
-    imdbID:list.value[i].imdbID,
+    Title:element.Title,
+    Type: element.Type,
+    Poster: element.Poster,
+    imdbID:element.imdbID,
+    Year:element.Year
 })
 
   }
