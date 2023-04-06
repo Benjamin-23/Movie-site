@@ -5,6 +5,7 @@ import SearchDropDrown from './components/SearchDropDown.vue'
 import SearchInput from './components/SearchInput.vue'
 import { onMounted, ref, type Ref } from 'vue';
 import axios from 'axios'
+import {db } from './stores/store'
 const type = ref('series')
 const selectedGenre = ref("action")
 const apiKey = import.meta.env.VITE_APP_API_KEY
@@ -18,6 +19,25 @@ async function getList() {
     console.log(response.data.Search);
     
     list.value = response.data.Search
+
+  for (let i = 0; i < list.value.length; i++) {
+    // const element = list.value[i];
+    // console.log(element);
+    
+// store in dexie 
+// movies list 
+
+    const id = await db.movies.add({
+    Title:list.value[i].Title,
+    Type: list.value[i].Type,
+    Poster: list.value[i].Poster,
+    imdbID:list.value[i].imdbID,
+})
+
+  }
+
+
+
   } catch (error) {
     console.error(error);
   }
