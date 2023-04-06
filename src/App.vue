@@ -44,8 +44,8 @@ async function searchByGenre(p:string) {
 }
 
 
-onMounted(() => {
-  getList()
+onMounted( async () => {
+ await getList()
 })
 const data = ref(null)
 // const error = ref(null)
