@@ -12,7 +12,7 @@ const apiKey = import.meta.env.VITE_APP_API_KEY
 const apiUrl = `https://www.omdbapi.com/?apikey=${apiKey}&s=movie`
 const list: Ref<any[]> = ref([])
 const title = ref("")
-const year= ref("")
+const year = ref("")
 const Poster = ref("")
 async function getList() {
   try {
@@ -61,14 +61,14 @@ async function searchByGenre(p: string) {
 
 // filter by title
 
-async function filterByTitleOrYear(t:string, y:string) {
+async function filterByTitleOrYear(t: string, y: string) {
   try {
     t = title.value
-    y = year.value 
+    y = year.value
     const response = await axios.get(`https://www.omdbapi.com/?apikey=${apiKey}&t=${t}&y=${y}`);
     list.value = response.data
     console.log(list.value);
-     Poster.value = response.data.Poster
+    Poster.value = response.data.Poster
     // get the movie poster
   } catch (error) {
     console.error(error);
@@ -88,14 +88,15 @@ const data = ref(null)
 </script>
 
 <template>
-  <main class="flex flex-col  w-screen justify-center items-center gap-4">
+  <main class="flex flex-col  w-screen justify-center items-center gap-4 max-w-full  max-lg:m-4">
     <Header></Header>
     <!-- search for the movie -->
     <!-- <input class=" border-black border" type="text" v-model="type"> -->
 
-    <div class="flex gap-4 justify-evenly items-center bg-slate-100 w-full py-4">
+    <div
+      class="flex gap-4 justify-evenly items-center bg-slate-100 w-full py-4 max-lg:flex-col max-md:max-w-full  max-lg:items-start ">
       <!-- search for a specific movie -->
-      <SearchInput v-model="type" type="text" placeholder="search" class="text-black">
+      <SearchInput v-model="type" type="text" placeholder="search" class="text-black max-md:max-w-full">
         <button @click="searchMovie(type)">Search</button>
       </SearchInput>
 
@@ -110,12 +111,18 @@ const data = ref(null)
         </select>
       </section>
       <!-- filter movies -->
-      <div class=" border border-black rounded-xl p-2 flex gap-2">
-        <label > Filter by Title</label>
-        <input type="text" v-model="title" class="outline-none">
-        <label>Year</label>
-        <input type="text" v-model="year" class="outline-none">
-        <button class=" bg-orange-500 px-2 text-white border-none rounded-md" @click="filterByTitleOrYear(title, year)">find</button>
+      <div class=" border border-black rounded-xl p-2 flex gap-2 max-md:w-full max-lg:flex-col">
+        <div class="max-lg:flex flex-col gap-2 ">
+          <label> Filter by Title</label>
+          <input type="text" v-model="title" class="outline-none">
+        </div>
+        <div class="max-lg:flex flex-col gap-2">
+          <label>Year</label>
+          <input type="text" v-model="year" class="outline-none">
+        </div>
+
+        <button class=" bg-orange-500 px-2 text-white border-none rounded-md"
+          @click="filterByTitleOrYear(title, year)">find</button>
       </div>
 
     </div>
