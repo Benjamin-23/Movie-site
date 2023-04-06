@@ -8,7 +8,7 @@ import axios from 'axios'
 const type = ref('series')
 const selectedGenre = ref("action")
 const apiKey = import.meta.env.VITE_APP_API_KEY
-const apiUrl = `http://www.omdbapi.com/?apikey=${apiKey}&s=movie`
+const apiUrl = `https://www.omdbapi.com/?apikey=${apiKey}&s=movie`
 const list: Ref<any[]> = ref([])
 
 
@@ -26,7 +26,7 @@ async function getList() {
 async function searchMovie(p: string) {
   try {
     p = type.value
-    const response = await axios.get(`http://www.omdbapi.com/?apikey=${apiKey}&s=${p}`);
+    const response = await axios.get(`https://www.omdbapi.com/?apikey=${apiKey}&s=${p}`);
     list.value = response.data.Search
   } catch (error) {
     console.error(error);
@@ -36,7 +36,7 @@ async function searchMovie(p: string) {
 async function searchByGenre(p:string) { 
   try {
     p = selectedGenre.value
-    const response = await axios.get(`http://www.omdbapi.com/?apikey=${apiKey}&s=${p}`);
+    const response = await axios.get(`https://www.omdbapi.com/?apikey=${apiKey}&s=${p}`);
     list.value = response.data.Search
   } catch (error) {
     console.error(error);
