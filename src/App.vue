@@ -47,7 +47,7 @@ async function searchByGenre(p:string) {
 onMounted(() => {
   getList()
 })
-// const data = ref(null)
+const data = ref(null)
 // const error = ref(null)
 // fetch(`${apiUrl}`)
 //     .then((res) => res.json())
