@@ -5,39 +5,35 @@ import SearchDropDrown from './components/SearchDropDown.vue'
 import SearchInput from './components/SearchInput.vue'
 import { onMounted, ref, type Ref } from 'vue';
 import axios from 'axios'
-import {db } from './stores/store'
+import { db } from './stores/store'
 const type = ref('series')
 const selectedGenre = ref("action")
 const apiKey = import.meta.env.VITE_APP_API_KEY
 const apiUrl = `https://www.omdbapi.com/?apikey=${apiKey}&s=movie`
 const list: Ref<any[]> = ref([])
-
-
+const title = ref("")
+const year= ref("")
+const Poster = ref("")
 async function getList() {
   try {
     const response = await axios.get(`${apiUrl}`);
-    console.log(response.data.Search);
-    
     list.value = response.data.Search
 
-  for (let i = 0; i < list.value.length; i++) {
-    const element = list.value[i];
-    
-// store in dexie 
-// movies list 
+    for (let i = 0; i < list.value.length; i++) {
+      const element = list.value[i];
 
-    const id = await db.movies.add({
-    Title:element.Title,
-    Type: element.Type,
-    Poster: element.Poster,
-    imdbID:element.imdbID,
-    Year:element.Year
-})
+      // store in dexie 
+      // movies list 
 
-  }
+      const id = await db.movies.add({
+        Title: element.Title,
+        Type: element.Type,
+        Poster: element.Poster,
+        imdbID: element.imdbID,
+        Year: element.Year
+      })
 
-
-
+    }
   } catch (error) {
     console.error(error);
   }
@@ -53,7 +49,7 @@ async function searchMovie(p: string) {
   }
 }
 
-async function searchByGenre(p:string) { 
+async function searchByGenre(p: string) {
   try {
     p = selectedGenre.value
     const response = await axios.get(`https://www.omdbapi.com/?apikey=${apiKey}&s=${p}`);
@@ -63,9 +59,25 @@ async function searchByGenre(p:string) {
   }
 }
 
+// filter by title
 
-onMounted( async () => {
- await getList()
+async function filterByTitleOrYear(t:string, y:string) {
+  try {
+    t = title.value
+    y = year.value 
+    const response = await axios.get(`https://www.omdbapi.com/?apikey=${apiKey}&t=${t}&y=${y}`);
+    list.value = response.data
+    console.log(list.value);
+     Poster.value = response.data.Poster
+    // get the movie poster
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+onMounted(async () => {
+  await getList()
 })
 const data = ref(null)
 // const error = ref(null)
@@ -80,21 +92,31 @@ const data = ref(null)
     <Header></Header>
     <!-- search for the movie -->
     <!-- <input class=" border-black border" type="text" v-model="type"> -->
-       
-    <div class="flex gap-4 justify-center items-center bg-slate-100 w-full py-4">
-      <SearchInput  v-model="type" type="text" placeholder="search" class="text-black">
+
+    <div class="flex gap-4 justify-evenly items-center bg-slate-100 w-full py-4">
+      <!-- search for a specific movie -->
+      <SearchInput v-model="type" type="text" placeholder="search" class="text-black">
         <button @click="searchMovie(type)">Search</button>
       </SearchInput>
-    
+
       <!-- <SearchDropDrown /> -->
-      <section class="flex gap-4 border border-black rounded-xl p-2" >  
-        <span>Select genre by</span>
-        <select v-model="selectedGenre" @click="searchByGenre(selectedGenre)" >
-            <option >action</option>
-            <option >Comedy</option>
-            <option >Drama</option>
+      <!-- select movie genre  -->
+      <section class="flex gap-4 border border-black rounded-xl p-2">
+        <span>Select genre</span>
+        <select v-model="selectedGenre" @click="searchByGenre(selectedGenre)" class="outline-none">
+          <option>action</option>
+          <option>Comedy</option>
+          <option>Drama</option>
         </select>
-    </section>
+      </section>
+      <!-- filter movies -->
+      <div class=" border border-black rounded-xl p-2 flex gap-2">
+        <label > Filter by Title</label>
+        <input type="text" v-model="title" class="outline-none">
+        <label>Year</label>
+        <input type="text" v-model="year" class="outline-none">
+        <button class=" bg-orange-500 px-2 text-white border-none rounded-md" @click="filterByTitleOrYear(title, year)">find</button>
+      </div>
 
     </div>
 
@@ -108,7 +130,7 @@ const data = ref(null)
 
         <img :src="series.Poster" alt="" class="w-64">
       </div>
-
+      <img v-if="Poster" :src="Poster" alt="loading" class=" absolute left-2">
     </div>
   </main>
 </template>
