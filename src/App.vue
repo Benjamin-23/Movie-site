@@ -61,7 +61,7 @@ async function searchByGenre(p: string) {
 
 // filter by title
 
-async function filterByTitleOrYear(t: string, y: string) {
+async function filterByTitleAndYear(t: string, y: string) {
   try {
     t = title.value
     y = year.value
@@ -94,7 +94,7 @@ const data = ref(null)
     <!-- <input class=" border-black border" type="text" v-model="type"> -->
 
     <div
-      class="flex gap-4 justify-evenly items-center bg-slate-100 w-full py-4 max-lg:flex-col max-md:max-w-full  max-lg:items-start ">
+      class="flex gap-4 justify-evenly items-center bg-slate-100 w-fit py-4 max-lg:flex-col max-md:max-w-full  max-lg:items-start ">
       <!-- search for a specific movie -->
       <SearchInput v-model="type" type="text" placeholder="search" class="text-black max-md:max-w-full">
         <button @click="searchMovie(type)">Search</button>
@@ -122,7 +122,7 @@ const data = ref(null)
         </div>
 
         <button class=" bg-orange-500 px-2 text-white border-none rounded-md"
-          @click="filterByTitleOrYear(title, year)">find</button>
+          @click="filterByTitleAndYear(title, year)">find</button>
       </div>
 
     </div>
@@ -135,7 +135,7 @@ const data = ref(null)
           <span>{{ series.Year }}</span>
         </div>
 
-        <img :src="series.Poster" alt="" class="w-64">
+        <img :src="series.Poster" alt="" class="w-52 max-lg:w-68">
       </div>
       <img v-if="Poster" :src="Poster" alt="loading" class=" absolute left-2">
     </div>
