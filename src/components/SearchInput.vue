@@ -14,7 +14,7 @@ const updateModel = (event: Event) => {
 </script>
 
 <template>
-    <div class="flex gap-4  border-black border rounded-xl p-2 w-[80%] justify-between max-lg:w-full">
+    <div class="flex gap-4  border-black border rounded-xl p-2  justify-between max-lg:w-full">
         <img src="@/assets/search.svg" alt="loading">
         <input class=" outline-none max-lg:w-4/5 text-gray-400 px-4" 
          :type="type"

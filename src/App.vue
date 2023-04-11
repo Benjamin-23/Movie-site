@@ -110,7 +110,7 @@ const data = ref(null)
         </select>
       </section>
       <!-- filter movies -->
-      <div class=" border w-[88%] justify-between border-black rounded-xl p-2 flex gap-2 max-md:w-full max-lg:flex-col">
+      <div class=" border w-[88%] justify-between border-black rounded-xl p-2 flex gap-2 max-lg:w-full max-lg:flex-col">
         <div class="max-lg:flex flex-col">
           <label class="mx-4"> Filter by Title</label>
           <input type="text" v-model="title" class="outline-none">
