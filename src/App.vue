@@ -65,9 +65,8 @@ async function filterByTitleAndYear(t: string, y: string) {
   try {
     t = title.value
     y = year.value
-    const response = await axios.get(`https://www.omdbapi.com/?apikey=${apiKey}&t=${t}&y=${y}`);
+    const response = await axios.get(`https://www.omdbapi.com/?apikey=${apiKey}&t=${t}&y=${y}&plot=short`);
     list.value = response.data
-    console.log(list.value);
     Poster.value = response.data.Poster
     // get the movie poster
   } catch (error) {
@@ -76,7 +75,7 @@ async function filterByTitleAndYear(t: string, y: string) {
 }
 
 
-onMounted(async () => {
+onMounted( async () => {
   await getList()
 })
 const data = ref(null)
@@ -88,36 +87,36 @@ const data = ref(null)
 </script>
 
 <template>
-  <main class="flex flex-col  w-screen justify-center items-center gap-4 max-w-full  max-lg:m-4">
+  <main class=" flex flex-col justify-center items-center gap-4 max-w-full  max-lg:m-4">
     <Header></Header>
     <!-- search for the movie -->
     <!-- <input class=" border-black border" type="text" v-model="type"> -->
 
     <div
-      class="flex gap-4 justify-evenly items-center bg-slate-100 w-fit py-4 max-lg:flex-col max-md:max-w-full  max-lg:items-start ">
+      class="flex gap-4 justify-evenly flex-wrap items-center py-4 max-lg:flex-col max-md:max-w-full  max-lg:items-start ">
       <!-- search for a specific movie -->
-      <SearchInput v-model="type" type="text" placeholder="search" class="text-black max-md:max-w-full">
-        <button @click="searchMovie(type)">Search</button>
+      <SearchInput v-model="type" type="text" placeholder="search" class="text-black w-[40%]">
+        <button class="bg-orange-500 px-2 text-white border-none rounded-md" @click="searchMovie(type)">Search</button>
       </SearchInput>
 
       <!-- <SearchDropDrown /> -->
       <!-- select movie genre  -->
-      <section class="flex gap-4 border border-black rounded-xl p-2">
+      <section class="flex gap-4 border border-black rounded-xl p-2 w-[40%] justify-between max-lg:w-full ">
         <span>Select genre</span>
-        <select v-model="selectedGenre" @click="searchByGenre(selectedGenre)" class="outline-none">
+        <select v-model="selectedGenre" @click="searchByGenre(selectedGenre)" class="outline-none bg-none">
           <option>action</option>
           <option>Comedy</option>
           <option>Drama</option>
         </select>
       </section>
       <!-- filter movies -->
-      <div class=" border border-black rounded-xl p-2 flex gap-2 max-md:w-full max-lg:flex-col">
-        <div class="max-lg:flex flex-col gap-2 ">
-          <label> Filter by Title</label>
+      <div class=" border w-[88%] justify-between border-black rounded-xl p-2 flex gap-2 max-md:w-full max-lg:flex-col">
+        <div class="max-lg:flex flex-col">
+          <label class="mx-4"> Filter by Title</label>
           <input type="text" v-model="title" class="outline-none">
         </div>
-        <div class="max-lg:flex flex-col gap-2">
-          <label>Year</label>
+        <div class="max-lg:flex flex-col">
+          <label class=" mx-4">Year</label>
           <input type="text" v-model="year" class="outline-none">
         </div>
 
